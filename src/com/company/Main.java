@@ -112,44 +112,15 @@ public class Main {
         Courses courseOne = Courses.valueOf(crse);
         courseOne.howIFeelAbout(courseOne);//howIFeelAbout Function is not recognized
 
+        int assign1= rand.nextInt();
+        int assign2 = rand.nextInt();
+        Assignments Assignment = new Assignments();
+        //Assignment object has localdatetime course category priority)
+
 
     }
 
-    enum Category {
-        HOMEWORK, QUIZ, PRESENTATION, FINAL_EXAM
-    }
 
-    enum Courses {
-        PersonalFinance, DataStructures, RaceCulComm, AfricanAHist, ResearchMethods
-    }
-
-    public class EnumCourseDescript {
-        Courses courses;
-
-        public EnumCourseDescript(Courses courses) {
-            this.courses = courses;
-        }
-
-        public void howIFeelAbout() {
-            switch (courses) {
-                case ResearchMethods:
-                    System.out.println("Research Methods is so hard!");
-                    break;
-
-                case AfricanAHist:
-                    System.out.println(" African American History is better.");
-                    break;
-                default:
-                    System.out.println("All my classes are alot of work");
-                    break;
-            }
-        }
-    }
-
-    enum DaysOfWeek {
-        SUNDAY, MONDAY, TUESDAY, WEDNESDAY,
-        THURSDAY, FRIDAY, SATURDAY
-    }
 
     private static String formattedDate(LocalDateTime date) {
         String newDate = "";
@@ -252,4 +223,43 @@ public class Main {
         }
         return earlyDate;
     }
+
+    private static class Assignments {
+    }
+}
+
+enum Category {
+    HOMEWORK, QUIZ, PRESENTATION, FINAL_EXAM
+}
+
+class EnumCourseDescript {
+    Courses courses;
+
+    public EnumCourseDescript(Courses courses) {
+        this.courses = courses;
+    }
+
+    public void howIFeelAbout() {
+        switch (courses) {
+            case ResearchMethods:
+                System.out.println("Research Methods is so hard!");
+                break;
+
+            case AfricanAHist:
+                System.out.println(" African American History is better.");
+                break;
+            default:
+                System.out.println("All my classes are alot of work");
+                break;
+        }
+    }
+}
+
+enum Courses {
+    PersonalFinance, DataStructures, RaceCulComm, AfricanAHist, ResearchMethods
+}
+
+enum DaysOfWeek {
+    SUNDAY, MONDAY, TUESDAY, WEDNESDAY,
+    THURSDAY, FRIDAY, SATURDAY
 }
