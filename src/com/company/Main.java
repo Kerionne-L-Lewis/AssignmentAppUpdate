@@ -10,13 +10,36 @@ public class Main {
         static Random rand = new Random();
         static Scanner sc = new Scanner(System.in);
 
-    public enum daysOfWeek{
-        SUNDAY, MONDAY, TUESDAY, WEDNESDAY,
-        THURSDAY, FRIDAY, SATURDAY
 
+
+     enum Courses{
+        PF, DS, RCC, AAH, RM
     }
 
+    public class EnumCourseDescript {
+        Courses courses;
 
+        public EnumCourseDescript(Courses courses) {
+            this.courses = courses;
+        }
+
+        public void howIFeelAboutCourses() {
+            switch (courses) {
+                case RM:
+                    System.out.println("Research Methods is so hard!");
+                    break;
+
+                case AAH:
+                    System.out.println(" African American History is better.");
+                    break;
+
+                default:
+                    System.out.println("All my classes are alot of work");
+                    break;
+            }
+
+        }
+    }
 
         public static void main(String[] args) {
             System.out.println("\n\nHello, AssignmentsApp!\n");
@@ -105,15 +128,26 @@ public class Main {
             System.out.println("The formatted date is " + formattedDate(hundredRandomDates.get(sc.nextInt())));
             //I had completely forgotten to submit the previous story, so if it looks like I completed this story incredibly quickly, it's because I temporarily removed this code so I could post the for the previous story.
 
-            //Define and use DayOfWeek emumerated type
-            System.out.println("Define and use DayOfWeek " + daysOfWeek.MONDAY + " "+  daysOfWeek.TUESDAY + " "+  daysOfWeek.WEDNESDAY
-                    + " "+ daysOfWeek.THURSDAY + " "+  daysOfWeek.FRIDAY +" "+  daysOfWeek. SATURDAY + " "+ daysOfWeek.SUNDAY);
+
+            DaysOfWeek day = DaysOfWeek.SATURDAY;
+            System.out.println("Define and use DayOfWeek " + DaysOfWeek.MONDAY + " "+  DaysOfWeek.TUESDAY + " "+  DaysOfWeek.WEDNESDAY
+                    + " "+ DaysOfWeek.THURSDAY + " "+  DaysOfWeek.FRIDAY +" "+  DaysOfWeek. SATURDAY + " "+ DaysOfWeek.SUNDAY);
+            System.out.println("Which day of the week is it ? " + day);
+           // EnumCourseDescript courseOne = EnumCourseDescript.RM;
+           // courseOne.howIFeelAboutCourses();
+
+
+
         }
 
 
 
 
 
+         enum DaysOfWeek{
+        SUNDAY, MONDAY, TUESDAY, WEDNESDAY,
+        THURSDAY, FRIDAY, SATURDAY
+         }
 
         private static String formattedDate(LocalDateTime date) {
             String newDate = "";
