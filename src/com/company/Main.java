@@ -10,37 +10,6 @@ public class Main {
         static Random rand = new Random();
         static Scanner sc = new Scanner(System.in);
 
-
-
-     enum Courses{
-        PF, DS, RCC, AAH, RM
-    }
-
-    public class EnumCourseDescript {
-        Courses courses;
-
-        public EnumCourseDescript(Courses courses) {
-            this.courses = courses;
-        }
-
-        public void howIFeelAboutCourses() {
-            switch (courses) {
-                case RM:
-                    System.out.println("Research Methods is so hard!");
-                    break;
-
-                case AAH:
-                    System.out.println(" African American History is better.");
-                    break;
-
-                default:
-                    System.out.println("All my classes are alot of work");
-                    break;
-            }
-
-        }
-    }
-
         public static void main(String[] args) {
             System.out.println("\n\nHello, AssignmentsApp!\n");
 
@@ -133,17 +102,25 @@ public class Main {
             System.out.println("Define and use DayOfWeek " + DaysOfWeek.MONDAY + " "+  DaysOfWeek.TUESDAY + " "+  DaysOfWeek.WEDNESDAY
                     + " "+ DaysOfWeek.THURSDAY + " "+  DaysOfWeek.FRIDAY +" "+  DaysOfWeek. SATURDAY + " "+ DaysOfWeek.SUNDAY);
             System.out.println("Which day of the week is it ? " + day);
-           // EnumCourseDescript courseOne = EnumCourseDescript.RM;
-           // courseOne.howIFeelAboutCourses();
+
+            Courses coursesNames = Courses.AfricanAHist;
+            System.out.println(coursesNames);
+
+            Category content= Category.QUIZ;
+            System.out.println("Which category did you pick? " + content);
 
 
 
         }
 
+            enum Category{
+                HOMEWORK, QUIZ, PRESENTATION , FINAL_EXAM
+            }
 
 
-
-
+        enum Courses{
+        PersonalFinance, DataStructures, RaceCulComm, AfricanAHist, ResearchMethods
+    }
          enum DaysOfWeek{
         SUNDAY, MONDAY, TUESDAY, WEDNESDAY,
         THURSDAY, FRIDAY, SATURDAY
