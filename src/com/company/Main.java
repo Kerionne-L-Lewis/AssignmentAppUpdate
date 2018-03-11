@@ -1,5 +1,7 @@
 package com.company;
 
+import javafx.scene.layout.Priority;
+
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
@@ -225,7 +227,20 @@ public class Main {
     }
 
     private static class Assignments {
+        private LocalDateTime time;
+        private Courses courses;
+        private Category content;
+        private Priority num;
+
+        public Assignments(LocalDateTime time, Courses courses, Category content, Priority num) {
+            this.time = time;
+            this.courses = courses;
+            this.content = content;
+            this.num = num;
+        }
     }
+
+
 }
 
 enum Category {
