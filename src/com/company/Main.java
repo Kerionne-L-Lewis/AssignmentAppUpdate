@@ -1,12 +1,15 @@
 package com.company;
 
-import javafx.scene.layout.Priority;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
 import java.util.*;
 import java.util.stream.Collectors;
+
+import static com.company.Main.Priority.LOW;
+import static com.company.Main.Priority.MEDIUM;
+import static com.company.Main.Priority.NOPRIORITY;
 
 public class Main {
     static Random rand = new Random();
@@ -105,19 +108,22 @@ public class Main {
                 + " " + DaysOfWeek.THURSDAY + " " + DaysOfWeek.FRIDAY + " " + DaysOfWeek.SATURDAY + " " + DaysOfWeek.SUNDAY);
         System.out.println("Which day of the week is it ? " + day);
 
-        Courses coursesNames = Courses.AfricanAHist;
+        EnumCourseDescript.Courses coursesNames = EnumCourseDescript.Courses.AfricanAHist;
         System.out.println(coursesNames);
 
         System.out.print("\nEnter a course (PersonalFinance, DataStructures, " +
                 "RaceCulComm, AfricanAHist, or ResearchMethods): ");
         String crse = sc.next();
-        Courses courseOne = Courses.valueOf(crse);
-        courseOne.howIFeelAbout(courseOne);//howIFeelAbout Function is not recognized
+        EnumCourseDescript.Courses courseOne = EnumCourseDescript.Courses.valueOf(crse);
+        courseOne.howIFeelAbout(courseOne);
 
-        int assign1= rand.nextInt();
-        int assign2 = rand.nextInt();
-        Assignments Assignment = new Assignments();
         //Assignment object has localdatetime course category priority)
+        Assignments assign1 = new Assignments( );
+        Assignments assign2 = new Assignments();
+        //generated 2 random assignments
+        
+
+
 
 
     }
@@ -228,19 +234,64 @@ public class Main {
 
     private static class Assignments {
         private LocalDateTime time;
-        private Courses courses;
-        private Category content;
-        private Priority num;
+        private EnumCourseDescript.Courses courses;
+        private Category subjects;
+        private Priority levels ;
 
-        public Assignments(LocalDateTime time, Courses courses, Category content, Priority num) {
+        public Assignments(LocalDateTime time, EnumCourseDescript.Courses courses,
+                           Category subjects, Priority levels) {
             this.time = time;
             this.courses = courses;
-            this.content = content;
-            this.num = num;
+            this.subjects = subjects;
+            this.levels = levels;
+        }
+
+
+
+        public EnumCourseDescript.Courses getCourses() {
+            return courses;
+        }
+
+        public LocalDateTime getTime() {
+             time = LocalDateTime.now();
+            return time;
+        }
+
+        public Category getSubjects() {
+            return subjects;
+        }
+
+        public Priority getLevels() {
+            if (levels.equals(NOPRIORITY))
+                System.out.println(0);
+            else if (levels.equals(LOW))
+                System.out.println(1);
+            else if (levels.equals(MEDIUM))
+                System.out.println(2);
+            else
+                System.out.println(3);
+
+            return levels;
+        }
+
+        @Override
+        public String toString() {
+            return "Assignments{" +
+                    "time=" + time +
+                    ", courses=" + courses +
+                    ", subjects=" + subjects +
+                    ", levels=" + levels +
+                    '}';
         }
     }
 
 
+
+
+
+enum Priority{
+      NOPRIORITY, LOW , MEDIUM, HIGH
+    }
 }
 
 enum Category {
@@ -254,27 +305,28 @@ class EnumCourseDescript {
         this.courses = courses;
     }
 
-    public void howIFeelAbout() {
-        switch (courses) {
-            case ResearchMethods:
-                System.out.println("Research Methods is so hard!");
-                break;
 
-            case AfricanAHist:
-                System.out.println(" African American History is better.");
-                break;
-            default:
-                System.out.println("All my classes are alot of work");
-                break;
+    enum Courses {
+        PersonalFinance, DataStructures, RaceCulComm, AfricanAHist, ResearchMethods;
+
+        public void howIFeelAbout(Courses crse) {
+            switch (crse) {
+                case ResearchMethods:
+                    System.out.println("Research Methods is so hard!");
+                    break;
+
+                case AfricanAHist:
+                    System.out.println(" African American History is better.");
+                    break;
+                default:
+                    System.out.println("All my classes are alot of work");
+                    break;
+            }
         }
     }
-}
 
-enum Courses {
-    PersonalFinance, DataStructures, RaceCulComm, AfricanAHist, ResearchMethods
 }
-
-enum DaysOfWeek {
-    SUNDAY, MONDAY, TUESDAY, WEDNESDAY,
-    THURSDAY, FRIDAY, SATURDAY
-}
+    enum DaysOfWeek {
+        SUNDAY, MONDAY, TUESDAY, WEDNESDAY,
+        THURSDAY, FRIDAY, SATURDAY
+    }
