@@ -7,9 +7,8 @@ import java.time.temporal.ChronoUnit;
 import java.util.*;
 import java.util.stream.Collectors;
 
-import static com.company.Main.Priority.LOW;
-import static com.company.Main.Priority.MEDIUM;
-import static com.company.Main.Priority.NOPRIORITY;
+import static com.company.Main.Priority.*;
+import static javafx.scene.input.KeyCode.T;
 
 public class Main {
     static Random rand = new Random();
@@ -117,11 +116,15 @@ public class Main {
         EnumCourseDescript.Courses courseOne = EnumCourseDescript.Courses.valueOf(crse);
         courseOne.howIFeelAbout(courseOne);
 
-        //Assignment object has localdatetime course category priority)
-        Assignments assign1 = new Assignments( );
-        Assignments assign2 = new Assignments();
-        //generated 2 random assignments
-        
+        LocalDateTime midtermDate = LocalDateTime.of(2018,03,15,8,00);
+        LocalDateTime finalExam= LocalDateTime.of(2017,12,06,10,30);
+
+        Assignments assign1= new Assignments(finalExam,EnumCourseDescript.Courses.DataStructures, Category.QUIZ, MEDIUM);
+        System.out.println("Assignment 1: " + assign1);
+       Assignments assign2 = new Assignments(midtermDate,
+               EnumCourseDescript.Courses.ResearchMethods, Category.HOMEWORK, HIGH);
+        System.out.println("Assignment 2: " + assign2);
+
 
 
 
@@ -240,21 +243,18 @@ public class Main {
 
         public Assignments(LocalDateTime time, EnumCourseDescript.Courses courses,
                            Category subjects, Priority levels) {
-            this.time = time;
-            this.courses = courses;
+            this.time=time;
+            this.courses =courses;
             this.subjects = subjects;
             this.levels = levels;
         }
 
-
+       public LocalDateTime getTime() {
+           return time;
+       }
 
         public EnumCourseDescript.Courses getCourses() {
             return courses;
-        }
-
-        public LocalDateTime getTime() {
-             time = LocalDateTime.now();
-            return time;
         }
 
         public Category getSubjects() {
@@ -276,11 +276,11 @@ public class Main {
 
         @Override
         public String toString() {
-            return "Assignments{" +
-                    "time=" + time +
-                    ", courses=" + courses +
-                    ", subjects=" + subjects +
-                    ", levels=" + levels +
+            return
+                    "time=" + getTime()+
+                    ", courses=" + getCourses() +
+                    ", subjects=" + getSubjects() +
+                    ", levels=" + getLevels() +
                     '}';
         }
     }
