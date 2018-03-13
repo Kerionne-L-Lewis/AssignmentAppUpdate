@@ -14,6 +14,8 @@ public class Main {
     static Scanner sc = new Scanner(System.in);
 
 
+
+
     public static void main(String[] args) throws CloneNotSupportedException {
         System.out.println("\n\nHello, AssignmentsApp!\n");
 
@@ -121,11 +123,16 @@ public class Main {
 
         Assignments assign1= new Assignments(finalExam,EnumCourseDescript.Courses.DataStructures, Category.QUIZ, MEDIUM);
         System.out.println("Assignment 1: " + assign1);
-       Assignments assign2 = new Assignments(midtermDate,
-               EnumCourseDescript.Courses.ResearchMethods, Category.HOMEWORK, HIGH);
+
+        Assignments assign2 = new Assignments(midtermDate,EnumCourseDescript.Courses.ResearchMethods, Category.HOMEWORK, HIGH);
         System.out.println("Assignment 2: " + assign2);
+
         Assignments assign3=(Assignments)assign1.clone();
         System.out.println("Assignment 3: " + assign3);
+
+        assign2.equals(assign1);
+        System.out.println("Override Assignment 1 with Assignment 2 {" + assign2  +" }");
+
 
 
 
@@ -278,7 +285,10 @@ public class Main {
 
             return levels;
         }
-
+        @Override
+        public boolean equals(Object obj) {
+            return super.equals(obj);
+        }
         @Override
         protected Object clone() throws CloneNotSupportedException {
             return super.clone();
