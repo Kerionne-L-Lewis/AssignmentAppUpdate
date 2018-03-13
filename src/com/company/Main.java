@@ -8,13 +8,13 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 import static com.company.Main.Priority.*;
-import static javafx.scene.input.KeyCode.T;
 
 public class Main {
     static Random rand = new Random();
     static Scanner sc = new Scanner(System.in);
 
-    public static void main(String[] args) {
+
+    public static void main(String[] args) throws CloneNotSupportedException {
         System.out.println("\n\nHello, AssignmentsApp!\n");
 
         //Output the current date-time.
@@ -124,6 +124,11 @@ public class Main {
        Assignments assign2 = new Assignments(midtermDate,
                EnumCourseDescript.Courses.ResearchMethods, Category.HOMEWORK, HIGH);
         System.out.println("Assignment 2: " + assign2);
+        Assignments assign3=(Assignments)assign1.clone();
+        System.out.println("Assignment 3: " + assign3);
+
+
+
 
 
 
@@ -235,7 +240,7 @@ public class Main {
         return earlyDate;
     }
 
-    private static class Assignments {
+    private static class Assignments implements Cloneable {
         private LocalDateTime time;
         private EnumCourseDescript.Courses courses;
         private Category subjects;
@@ -272,6 +277,11 @@ public class Main {
                 System.out.println(3);
 
             return levels;
+        }
+
+        @Override
+        protected Object clone() throws CloneNotSupportedException {
+            return super.clone();
         }
 
         @Override
