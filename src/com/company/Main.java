@@ -127,19 +127,22 @@ public class Main {
         Assignments assign2 = new Assignments(midtermDate,EnumCourseDescript.Courses.ResearchMethods, Category.HOMEWORK, HIGH);
         System.out.println("Assignment 2: " + assign2);
 
-        Assignments assign3=(Assignments)assign1.clone();
+        Assignments assign3=assign1.copy();
         System.out.println("Assignment 3: " + assign3);
 
-        assign2.equals(assign1);
-        System.out.println("Override Assignment 1 with Assignment 2 {" + assign2  +" }");
+        boolean assign4 = assign1.equals(assign3);
+        System.out.println("(Override Assignment.equals) Are these the same assignments " + assign4);
 
         int num1 = assign1.getTime().compareTo(assign1.getTime());
         int num2 =assign1.getTime().compareTo(assign2.getTime());
         int num3 =assign3.getTime().compareTo(assign1.getTime());
-        
+        int num4=assign1.getTime().compareTo(assign3.getTime());
 
-        System.out.println("results " + num1 + " " + num2 + " " + num3);
 
+        System.out.println("results " + num1 + " " + num2 + " " + num3+ " "+num4);
+
+        int earilest = earliest(num1, num2, num3);
+        System.out.println("The earliest assignment is " + earilest );
 
 
 
@@ -148,6 +151,18 @@ public class Main {
 
     }
 
+    private static int earliest(int num1, int num2, int num3) {
+       int earliest;
+        if (num1<num2&& num1<num3){
+            earliest=num1;
+        }
+        else if (num2< num3 && num2<num1){
+            earliest=num2;
+        }
+        else
+            earliest= num2;
+
+     return earliest;}
 
 
     private static String formattedDate(LocalDateTime date) {
@@ -257,6 +272,7 @@ public class Main {
         private EnumCourseDescript.Courses courses;
         private Category subjects;
         private Priority levels;
+        private int t;
 
         public Assignments(LocalDateTime time, EnumCourseDescript.Courses courses,
                            Category subjects, Priority levels) {
@@ -293,17 +309,6 @@ public class Main {
 
 
         @Override
-        public boolean equals(Object obj) {
-            return super.equals(obj);
-        }
-
-        @Override
-        protected Object clone() throws CloneNotSupportedException {
-            return super.clone();
-        }
-
-
-        @Override
         public String toString() {
             return
                     "time=" + getTime() +
@@ -313,7 +318,6 @@ public class Main {
                             '}';
         }
 
-       @Override
         public int compareTo(int t) {
             if (t==-1) {
                 System.out.println("BEFORE");
@@ -323,9 +327,28 @@ public class Main {
                 System.out.println("AFTER");
             }
             return 0;
-
         }
 
+        @Override
+        public boolean equals(Object o) {
+            if (this == o) return true;
+            if (o == null || getClass() != o.getClass()) return false;
+            Assignments that = (Assignments) o;
+            return Objects.equals(time, that.time);
+        }
+
+        @Override
+        public int hashCode() {
+
+            return Objects.hash(time);
+        }
+
+        public Assignments copy() {
+            Assignments answer = new Assignments(this.time, this.courses, this.subjects, this.levels);
+            return answer;
+
+
+        }
     }
 
 
