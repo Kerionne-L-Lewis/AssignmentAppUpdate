@@ -133,7 +133,12 @@ public class Main {
         assign2.equals(assign1);
         System.out.println("Override Assignment 1 with Assignment 2 {" + assign2  +" }");
 
+        int num1 = assign1.getTime().compareTo(assign1.getTime());
+        int num2 =assign1.getTime().compareTo(assign2.getTime());
+        int num3 =assign3.getTime().compareTo(assign1.getTime());
+        
 
+        System.out.println("results " + num1 + " " + num2 + " " + num3);
 
 
 
@@ -247,23 +252,23 @@ public class Main {
         return earlyDate;
     }
 
-    private static class Assignments implements Cloneable {
+    private static class Assignments   {
         private LocalDateTime time;
         private EnumCourseDescript.Courses courses;
         private Category subjects;
-        private Priority levels ;
+        private Priority levels;
 
         public Assignments(LocalDateTime time, EnumCourseDescript.Courses courses,
                            Category subjects, Priority levels) {
-            this.time=time;
-            this.courses =courses;
+            this.time = time;
+            this.courses = courses;
             this.subjects = subjects;
             this.levels = levels;
         }
 
-       public LocalDateTime getTime() {
-           return time;
-       }
+        public LocalDateTime getTime() {
+            return time;
+        }
 
         public EnumCourseDescript.Courses getCourses() {
             return courses;
@@ -285,26 +290,43 @@ public class Main {
 
             return levels;
         }
+
+
         @Override
         public boolean equals(Object obj) {
             return super.equals(obj);
         }
+
         @Override
         protected Object clone() throws CloneNotSupportedException {
             return super.clone();
         }
 
+
         @Override
         public String toString() {
             return
-                    "time=" + getTime()+
-                    ", courses=" + getCourses() +
-                    ", subjects=" + getSubjects() +
-                    ", levels=" + getLevels() +
-                    '}';
+                    "time=" + getTime() +
+                            ", courses=" + getCourses() +
+                            ", subjects=" + getSubjects() +
+                            ", levels=" + getLevels() +
+                            '}';
         }
-    }
 
+       @Override
+        public int compareTo(int t) {
+            if (t==-1) {
+                System.out.println("BEFORE");
+            } else if (t==0) {
+                System.out.println("EQUALS");
+            } else {
+                System.out.println("AFTER");
+            }
+            return 0;
+
+        }
+
+    }
 
 
 
