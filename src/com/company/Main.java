@@ -181,7 +181,17 @@ public class Main {
 
         } catch (IOException e) {
             e.printStackTrace();
-      */  }
+      */
+        File outfile = new File("input.dat");
+        try(PrintWriter pw = new PrintWriter(outfile)) {
+            for (int i = 0; i < assignmentsList.size(); i++) {
+                Assignments random= assignmentsList.get(i);
+               String assignToString =String.valueOf(random);
+                pw.println(assignToString);
+            }
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
     }
 
     private static int earliest(int num1, int num2, int num3) {
