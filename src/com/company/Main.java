@@ -1,6 +1,7 @@
 package com.company;
 
 
+import java.io.*;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
@@ -16,7 +17,7 @@ public class Main {
 
 
 
-    public static void main(String[] args) throws CloneNotSupportedException {
+    public static void main(String[] args) throws  FileNotFoundException  {
         System.out.println("\n\nHello, AssignmentsApp!\n");
 
         //Output the current date-time.
@@ -135,7 +136,7 @@ public class Main {
 
         int num1 = assign1.getTime().compareTo(assign1.getTime());
         int num2 =assign1.getTime().compareTo(assign2.getTime());
-        int num3 =assign3.getTime().compareTo(assign1.getTime());
+        int num3 =assign2.getTime().compareTo(assign1.getTime());
         int num4=assign1.getTime().compareTo(assign3.getTime());
 
 
@@ -144,11 +145,43 @@ public class Main {
         int earilest = earliest(num1, num2, num3);
         System.out.println("The earliest assignment is " + earilest );
 
+        ArrayList<Assignments> assignmentsList = listOFAssignments(assign1,assign2,assign3);
+        randomlyGenerateAssignFile(assignmentsList);
 
 
 
 
 
+
+
+
+    }
+
+
+
+    public static ArrayList<Assignments> listOFAssignments(Assignments assign1, Assignments assign2, Assignments assign3) {
+        ArrayList<Assignments>assignments = new ArrayList<>();
+        assignments.add(assign1);
+        assignments.add(assign2);
+        assignments.add(assign3);
+        return assignments;
+    }
+
+
+    public static void randomlyGenerateAssignFile(ArrayList<Assignments> assignmentsList)  {
+        /*try {
+            FileOutputStream file = new FileOutputStream(new File("input.dat"));
+            ObjectOutputStream outputObject = new ObjectOutputStream(file);
+            for (int i = 0; i <assignmentsList.size() ; i++) {
+                Assignments element = assignmentsList.get(i);
+                outputObject.writeObject(element);
+                outputObject.close();
+                file.close();
+            }
+
+        } catch (IOException e) {
+            e.printStackTrace();
+      */  }
     }
 
     private static int earliest(int num1, int num2, int num3) {
@@ -163,7 +196,6 @@ public class Main {
             earliest= num2;
 
      return earliest;}
-
 
     private static String formattedDate(LocalDateTime date) {
         String newDate = "";
@@ -228,7 +260,6 @@ public class Main {
         return count;
     }
 
-
     private static ArrayList<LocalDateTime> seekDuplicates(ArrayList<LocalDateTime> userList) {
         ArrayList<LocalDateTime> returnArray = new ArrayList<>();
         Set<LocalDateTime> dateSet = new HashSet<>();
@@ -267,7 +298,7 @@ public class Main {
         return earlyDate;
     }
 
-    private static class Assignments   {
+    private static class Assignments implements Serializable  {
         private LocalDateTime time;
         private EnumCourseDescript.Courses courses;
         private Category subjects;
