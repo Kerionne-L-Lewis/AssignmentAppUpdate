@@ -8,6 +8,7 @@ import java.time.temporal.ChronoUnit;
 import java.util.*;
 import java.util.stream.Collectors;
 
+import static com.company.Category.QUIZ;
 import static com.company.Main.Priority.*;
 
 public class Main {
@@ -122,7 +123,7 @@ public class Main {
         LocalDateTime midtermDate = LocalDateTime.of(2018,03,15,8,00);
         LocalDateTime finalExam= LocalDateTime.of(2017,12,06,10,30);
 
-        Assignments assign1= new Assignments(finalExam,EnumCourseDescript.Courses.DataStructures, Category.QUIZ, MEDIUM);
+        Assignments assign1= new Assignments(finalExam,EnumCourseDescript.Courses.DataStructures, QUIZ, MEDIUM);
         System.out.println("Assignment 1: " + assign1);
 
         Assignments assign2 = new Assignments(midtermDate,EnumCourseDescript.Courses.ResearchMethods, Category.HOMEWORK, HIGH);
@@ -146,7 +147,9 @@ public class Main {
         System.out.println("The earliest assignment is " + earilest );
 
         ArrayList<Assignments> assignmentsList = listOFAssignments(assign1,assign2,assign3);
-        randomlyGenerateAssignFile(assignmentsList);
+
+        randomlyGenerateAssignFile(assignmentsList , 100);
+        Assignments assign= readAssignmentFromFile(midtermDate);
 
 
 
@@ -157,7 +160,21 @@ public class Main {
 
     }
 
+    public static Assignments readAssignmentFromFile(LocalDateTime midtermDate) {
+        File readFile = new File("input.dat");
+        try (Scanner sc = new Scanner(readFile)) {
+            while (sc.hasNext()) {
+                String assigns = sc.nextLine();
+                LocalDateTime time = assigns.get
 
+                Assignments assign5= new Assignments();
+                assign5.add();
+            }
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+        return assign5;
+    }
 
     public static ArrayList<Assignments> listOFAssignments(Assignments assign1, Assignments assign2, Assignments assign3) {
         ArrayList<Assignments>assignments = new ArrayList<>();
@@ -168,31 +185,23 @@ public class Main {
     }
 
 
-    public static void randomlyGenerateAssignFile(ArrayList<Assignments> assignmentsList)  {
-        /*try {
-            FileOutputStream file = new FileOutputStream(new File("input.dat"));
-            ObjectOutputStream outputObject = new ObjectOutputStream(file);
-            for (int i = 0; i <assignmentsList.size() ; i++) {
-                Assignments element = assignmentsList.get(i);
-                outputObject.writeObject(element);
-                outputObject.close();
-                file.close();
-            }
+    public static void randomlyGenerateAssignFile(ArrayList<Assignments> assignmentsList, int num) {
+                File outfile = new File("input.dat");
+                try (PrintWriter pw = new PrintWriter(outfile)) {
+                    for (int i = 0; i < num; i++) {
+                        LocalDateTime randomDate= randomDateGenerator();
+                         Category randEnums= Category.values()[new Random().nextInt(Category.values().length)];
+                        Assignments temp = new Assignments(randomDate, EnumCourseDescript.Courses.AfricanAHist,
+                                randEnums,HIGH);
 
-        } catch (IOException e) {
-            e.printStackTrace();
-      */
-        File outfile = new File("input.dat");
-        try(PrintWriter pw = new PrintWriter(outfile)) {
-            for (int i = 0; i < assignmentsList.size(); i++) {
-                Assignments random= assignmentsList.get(i);
-               String assignToString =String.valueOf(random);
-                pw.println(assignToString);
-            }
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        }
+                        pw.println(temp);
+                    }
+                } catch (FileNotFoundException e) {
+                    e.printStackTrace();
+                }
+
     }
+
 
     private static int earliest(int num1, int num2, int num3) {
        int earliest;
@@ -308,7 +317,7 @@ public class Main {
         return earlyDate;
     }
 
-    private static class Assignments implements Serializable  {
+    private static class Assignments   {
         private LocalDateTime time;
         private EnumCourseDescript.Courses courses;
         private Category subjects;
@@ -322,6 +331,7 @@ public class Main {
             this.subjects = subjects;
             this.levels = levels;
         }
+
 
         public LocalDateTime getTime() {
             return time;
@@ -388,6 +398,10 @@ public class Main {
             Assignments answer = new Assignments(this.time, this.courses, this.subjects, this.levels);
             return answer;
 
+
+        }
+
+        public void add() {
 
         }
     }
