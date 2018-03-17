@@ -149,7 +149,7 @@ public class Main {
         ArrayList<Assignments> assignmentsList = listOFAssignments(assign1,assign2,assign3);
 
         randomlyGenerateAssignFile(assignmentsList , 100);
-        Assignments assign= readAssignmentFromFile(midtermDate);
+        Assignments assign= readAssignmentFromFile();
 
 
 
@@ -160,22 +160,45 @@ public class Main {
 
     }
 
-    public static Assignments readAssignmentFromFile(LocalDateTime midtermDate) {
+    public static Assignments readAssignmentFromFile() {
         File readFile = new File("input.dat");
         try (Scanner sc = new Scanner(readFile)) {
             while (sc.hasNext()) {
-                String assigns = sc.nextLine();
-                LocalDateTime time = assigns.get
+              String assigns = sc.nextLine();
 
-                Assignments assign5= new Assignments();
-                assign5.add();
+                String[] parts = assigns.split(" ");
+                String[] partsDate = parts[0].split("/");
+                String[] partsTime = parts[1].split(":");
+                String[] partCourses = assigns.split("[,]");
+
+
+
+                int year = Integer.parseInt(partsDate[0]);
+                int month = Integer.parseInt(partsDate[1]);
+                int day = Integer.parseInt(partsDate[2]);
+                int hour = Integer.parseInt(partsTime[0]);
+                int minute = Integer.parseInt(partsTime[1]);
+
+                int course = Integer.parseInt(partCourses[1]);
+
+
+
+                LocalDateTime temp = LocalDateTime.of(year, month, day, hour, minute);
+                EnumCourseDescript courses = EnumCourseDescript.Courses.valueOf(course);
+
+                Assignments assign5= new Assignments(temp, courses,   );
+
+
+
             }
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
         return assign5;
     }
+    // LocalDateTime time = ;
 
+    //  assign5.add();
     public static ArrayList<Assignments> listOFAssignments(Assignments assign1, Assignments assign2, Assignments assign3) {
         ArrayList<Assignments>assignments = new ArrayList<>();
         assignments.add(assign1);
