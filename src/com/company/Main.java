@@ -150,6 +150,7 @@ public class Main {
 
         randomlyGenerateAssignFile(assignmentsList , 100);
         Assignments assign= readAssignmentFromFile();
+        System.out.println(assign);
 
 
 
@@ -162,33 +163,34 @@ public class Main {
 
     public static Assignments readAssignmentFromFile() {
         File readFile = new File("input.dat");
+        Assignments assign5=null;
         try (Scanner sc = new Scanner(readFile)) {
             while (sc.hasNext()) {
               String assigns = sc.nextLine();
 
-                String[] parts = assigns.split(" ");
-                String[] partsDate = parts[0].split("/");
-                String[] partsTime = parts[1].split(":");
+                String[] parts = assigns.split("");
+                String[] partsDate = parts[0].split("-");
+                String[] partsTime = parts[0].split(":");
                 String[] partCourses = assigns.split("[,]");
 
 
 
-                int year = Integer.parseInt(partsDate[0]);
+                int year = Integer.parseInt(parts[0]);
                 int month = Integer.parseInt(partsDate[1]);
                 int day = Integer.parseInt(partsDate[2]);
                 int hour = Integer.parseInt(partsTime[0]);
                 int minute = Integer.parseInt(partsTime[1]);
 
-                int course = Integer.parseInt(partCourses[1]);
+                String course = partCourses[1];
 
 
 
                 LocalDateTime temp = LocalDateTime.of(year, month, day, hour, minute);
-                EnumCourseDescript courses = EnumCourseDescript.Courses.valueOf(course);
+                EnumCourseDescript.Courses courses = EnumCourseDescript.Courses.valueOf(course);
 
-                Assignments assign5= new Assignments(temp, courses,   );
+               assign5= new Assignments(temp, courses, Category.PRESENTATION, Priority.MEDIUM  );
 
-
+                System.out.println("\n\nKerionne: " +assign5);
 
             }
         } catch (FileNotFoundException e) {
@@ -196,9 +198,7 @@ public class Main {
         }
         return assign5;
     }
-    // LocalDateTime time = ;
 
-    //  assign5.add();
     public static ArrayList<Assignments> listOFAssignments(Assignments assign1, Assignments assign2, Assignments assign3) {
         ArrayList<Assignments>assignments = new ArrayList<>();
         assignments.add(assign1);
@@ -327,7 +327,8 @@ public class Main {
     }
 
     private static LocalDateTime randomDateGenerator() {
-        long startOfTime = ChronoUnit.MINUTES.between(LocalDateTime.of(0, 1, 1, 0, 0), LocalDateTime.now());
+        long startOfTime = ChronoUnit.MINUTES.between(LocalDateTime.of(0, 1, 1, 0, 0)
+                , LocalDateTime.now());
         long minutes = rand.nextInt((int) startOfTime);
         return LocalDateTime.now().minusMinutes(minutes);
     }
@@ -385,11 +386,11 @@ public class Main {
         @Override
         public String toString() {
             return
-                    "time=" + getTime() +
-                            ", courses=" + getCourses() +
-                            ", subjects=" + getSubjects() +
-                            ", levels=" + getLevels() +
-                            '}';
+                     getTime() +
+                            " ," + getCourses() +
+                            " ," + getSubjects() +
+                            " ," + getLevels()
+                            ;
         }
 
         public int compareTo(int t) {
@@ -424,9 +425,7 @@ public class Main {
 
         }
 
-        public void add() {
 
-        }
     }
 
 
