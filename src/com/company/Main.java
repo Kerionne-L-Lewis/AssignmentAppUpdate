@@ -150,15 +150,41 @@ public class Main {
 
         randomlyGenerateAssignFile(assignmentsList , 100);
         Assignments assign= readAssignmentFromFile();
-        System.out.println(assign);
+
+        ArrayList<Assignments> assignmentsListFrmFile = list(assign);
+        System.out.println("list" + assignmentsListFrmFile);
+
+        Set<ArrayList<Assignments>> noDuplicates = removeDupes(assignmentsListFrmFile);
+        System.out.println("remove dupes "+ noDuplicates);
 
 
 
 
 
+    }
 
 
 
+    private static Set<ArrayList<Assignments>> removeDupes(ArrayList<Assignments> assignmentsListFrmFile) {
+        Set<ArrayList<Assignments>> noDupes = new HashSet<>();
+        for (int i = 0; i < assignmentsListFrmFile.size(); i++) {
+            noDupes.add(assignmentsListFrmFile);
+            if (assignmentsListFrmFile.equals(i)) {
+                noDupes.remove(i);
+
+            }
+        }
+        return noDupes;
+    }
+
+
+
+    private static ArrayList<Assignments> list(Assignments assign) {
+        ArrayList<Assignments>listNew = new ArrayList<>();
+        for (int i = 0; i < 50; i++) {
+            listNew.add(assign);
+        }
+        return listNew;
     }
 
     public static Assignments readAssignmentFromFile() {
@@ -168,31 +194,34 @@ public class Main {
             while (sc.hasNext()) {
               String assigns = sc.nextLine();
 
-                String[] parts = assigns.split("");
-                String[] partsDate = parts[0].split("-");
-                String[] partsTime = parts[0].split(":");
-                String[] partCourses = assigns.split("[,]");
+                String[] parts = assigns.split(" , ");
+
+                String[] partsLocalDateTime = parts[0].split("T");
+                String[] date = partsLocalDateTime[0].split("-");
+                String[] time = partsLocalDateTime[1].split(":");
 
 
+                int year = Integer.parseInt(date[0]);
+                int month = Integer.parseInt(date[1]);
+                int day = Integer.parseInt(date[2]);
+                int hour = Integer.parseInt(time[0]);
+                int minute = Integer.parseInt(time[1]);
 
-                int year = Integer.parseInt(parts[0]);
-                int month = Integer.parseInt(partsDate[1]);
-                int day = Integer.parseInt(partsDate[2]);
-                int hour = Integer.parseInt(partsTime[0]);
-                int minute = Integer.parseInt(partsTime[1]);
-
-                String course = partCourses[1];
-
-
+                String course = parts[1];
+                String category = parts[2];
+                String priority= parts[3];
 
                 LocalDateTime temp = LocalDateTime.of(year, month, day, hour, minute);
                 EnumCourseDescript.Courses courses = EnumCourseDescript.Courses.valueOf(course);
+                Category categorynew = Category.valueOf(category);
+                Priority priority1 = Priority.valueOf(priority);
 
-               assign5= new Assignments(temp, courses, Category.PRESENTATION, Priority.MEDIUM  );
 
-                System.out.println("\n\nKerionne: " +assign5);
-
+               assign5= new Assignments(temp, courses, categorynew, priority1  );
+                System.out.print("\n\nKerionne: " +assign5);
             }
+
+
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
@@ -206,7 +235,6 @@ public class Main {
         assignments.add(assign3);
         return assignments;
     }
-
 
     public static void randomlyGenerateAssignFile(ArrayList<Assignments> assignmentsList, int num) {
                 File outfile = new File("input.dat");
@@ -224,7 +252,6 @@ public class Main {
                 }
 
     }
-
 
     private static int earliest(int num1, int num2, int num3) {
        int earliest;
@@ -387,9 +414,9 @@ public class Main {
         public String toString() {
             return
                      getTime() +
-                            " ," + getCourses() +
-                            " ," + getSubjects() +
-                            " ," + getLevels()
+                            " , " + getCourses() +
+                            " , " + getSubjects() +
+                            " , " + getLevels()
                             ;
         }
 
