@@ -18,7 +18,7 @@ public class Main {
 
 
 
-    public static void main(String[] args) throws  FileNotFoundException  {
+    public static void main(String[] args)   {
         System.out.println("\n\nHello, AssignmentsApp!\n");
 
         //Output the current date-time.
@@ -157,6 +157,11 @@ public class Main {
         Set<ArrayList<Assignments>> noDuplicates = removeDupes(assignmentsListFrmFile);
         System.out.println("remove dupes "+ noDuplicates);
 
+        boolean answer1 = assignmentsListFrmFile.get( 0 ).equals( assignmentsListFrmFile.get( 0 ));  // true
+        boolean answer2 = assignmentsListFrmFile.get( 0 ).equals( assignmentsListFrmFile.get( 1 ));  // false
+        boolean answer3 = assignmentsListFrmFile.get( 1 ).equals( assignmentsListFrmFile.get( 0 ));  // false
+
+        System.out.println(answer1 + " "+  answer2+" " + " " +answer3);
 
 
 
@@ -176,7 +181,6 @@ public class Main {
         }
         return noDupes;
     }
-
 
 
     private static ArrayList<Assignments> list(Assignments assign) {
