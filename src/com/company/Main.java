@@ -152,16 +152,13 @@ public class Main {
         Assignments assign= readAssignmentFromFile();
 
         ArrayList<Assignments> assignmentsListFrmFile = list(assign);
-        System.out.println("list" + assignmentsListFrmFile);
 
-        Set<ArrayList<Assignments>> noDuplicates = removeDupes(assignmentsListFrmFile);
-        System.out.println("remove dupes "+ noDuplicates);
+     boolean areThereDupes = removeDupes(assign);
+        System.out.println("\n\nAre the dupes removed ? "+ areThereDupes);
 
-        boolean answer1 = assignmentsListFrmFile.get( 0 ).equals( assignmentsListFrmFile.get( 0 ));  // true
-        boolean answer2 = assignmentsListFrmFile.get( 0 ).equals( assignmentsListFrmFile.get( 1 ));  // false
-        boolean answer3 = assignmentsListFrmFile.get( 1 ).equals( assignmentsListFrmFile.get( 0 ));  // false
 
-        System.out.println(answer1 + " "+  answer2+" " + " " +answer3);
+
+
 
 
 
@@ -170,18 +167,22 @@ public class Main {
 
 
 
-    private static Set<ArrayList<Assignments>> removeDupes(ArrayList<Assignments> assignmentsListFrmFile) {
-        Set<ArrayList<Assignments>> noDupes = new HashSet<>();
-        for (int i = 0; i < assignmentsListFrmFile.size(); i++) {
-            noDupes.add(assignmentsListFrmFile);
-            if (assignmentsListFrmFile.equals(i)) {
-                noDupes.remove(i);
-
-            }
+    private static boolean removeDupes(Assignments assign) {
+        boolean result = false;
+        Set<Assignments> noDupes = new HashSet<>();
+        for (int i = 0; i <10 ; i++) {
+            noDupes.add(assign);
+            //result= assign.equals(i);
+           if (!( result)){
+               noDupes.remove(i);
+               result=assign.equals(i);
+           }
+          // result = noDupes.hashCode( );
         }
-        return noDupes;
-    }
 
+
+        return result;
+    }
 
     private static ArrayList<Assignments> list(Assignments assign) {
         ArrayList<Assignments>listNew = new ArrayList<>();
