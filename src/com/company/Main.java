@@ -135,10 +135,10 @@ public class Main {
         boolean assign4 = assign1.equals(assign3);
         System.out.println("(Override Assignment.equals) Are these the same assignments " + assign4);
 
-        int num1 = assign1.getTime().compareTo(assign1.getTime());
-        int num2 =assign1.getTime().compareTo(assign2.getTime());
-        int num3 =assign2.getTime().compareTo(assign1.getTime());
-        int num4=assign1.getTime().compareTo(assign3.getTime());
+        int num1 = assign1.compareTo(assign1);
+        int num2 =assign1.compareTo(assign2);
+        int num3 =assign2.compareTo(assign1);
+        int num4=assign1.compareTo(assign3);
 
 
         System.out.println("results " + num1 + " " + num2 + " " + num3+ " "+num4);
@@ -152,6 +152,12 @@ public class Main {
         Assignments assign= readAssignmentFromFile();
 
         ArrayList<Assignments> assignmentsListFrmFile = list(assign);
+
+        System.out.println("\nKerionne:\n\t" + assignmentsListFrmFile.get(0) + "\n\t" + assignmentsListFrmFile.get(1));
+        boolean answer1 = assignmentsListFrmFile.get( 0 ).equals( assignmentsListFrmFile.get( 0 ));  // true
+        boolean answer2 = assignmentsListFrmFile.get( 0 ).equals( assignmentsListFrmFile.get( 1 ));  // false
+        boolean answer3 = assignmentsListFrmFile.get( 1 ).equals( assignmentsListFrmFile.get( 0 ));  // false
+        System.out.println(answer1 + " "+  answer2+" " + " " +answer3);
 
      boolean areThereDupes = removeDupes(assign);
         System.out.println("\n\nAre the dupes removed ? "+ areThereDupes);
@@ -425,15 +431,9 @@ public class Main {
                             ;
         }
 
-        public int compareTo(int t) {
-            if (t==-1) {
-                System.out.println("BEFORE");
-            } else if (t==0) {
-                System.out.println("EQUALS");
-            } else {
-                System.out.println("AFTER");
-            }
-            return 0;
+        public int compareTo(Assignments rhs) {
+
+            return this.time.compareTo(rhs.time);
         }
 
         @Override
