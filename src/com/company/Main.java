@@ -9,6 +9,8 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 import static com.company.Category.QUIZ;
+import static com.company.EnumCourseDescript.Courses.AfricanAHist;
+import static com.company.EnumCourseDescript.Courses.RaceCulComm;
 import static com.company.Main.Priority.*;
 
 public class Main {
@@ -149,19 +151,27 @@ public class Main {
         ArrayList<Assignments> assignmentsList = listOFAssignments(assign1,assign2,assign3);
 
         randomlyGenerateAssignFile(assignmentsList , 100);
-        Assignments assign= readAssignmentFromFile();
+        ArrayList<Assignments> assign= readAssignmentFromFile();
 
-        ArrayList<Assignments> assignmentsListFrmFile = list(assign);
 
-        System.out.println("\nKerionne:\n\t" + assignmentsListFrmFile.get(0) + "\n\t" + assignmentsListFrmFile.get(1));
-        boolean answer1 = assignmentsListFrmFile.get( 0 ).equals( assignmentsListFrmFile.get( 0 ));  // true
-        boolean answer2 = assignmentsListFrmFile.get( 0 ).equals( assignmentsListFrmFile.get( 1 ));  // false
-        boolean answer3 = assignmentsListFrmFile.get( 1 ).equals( assignmentsListFrmFile.get( 0 ));  // false
+        System.out.println("\nKerionne:\n\t" + assign.get(0) + "\n\t" + assign.get(1));
+        boolean answer1 = assign.get( 0 ).equals( assign.get( 0 ));  // true
+        boolean answer2 = assign.get( 0 ).equals( assign.get( 1 ));  // false
+        boolean answer3 = assign.get( 1 ).equals( assign.get( 0 ));  // false
         System.out.println(answer1 + " "+  answer2+" " + " " +answer3);
 
-     boolean areThereDupes = removeDupes(assign);
+        assign.add(assign.get(0));
+        assign.add(assign.get(1));
+        assign.add(assign.get(2));
+
+     Set<Assignments> areThereDupes = removeDupes(assign);
         System.out.println("\n\nAre the dupes removed ? "+ areThereDupes);
 
+        System.out.println("\n# assignments = " + assign.size() + " # Set + 3 = "
+                + areThereDupes.size());
+
+        int counter =countingCourse(assign,AfricanAHist);
+        System.out.println("How many assignments for course " + counter );
 
 
 
@@ -171,23 +181,25 @@ public class Main {
 
     }
 
+    private static int countingCourse(ArrayList<Assignments> assign, EnumCourseDescript.Courses course) {
+        int count = 0;
+        for (int i = 0; i <assign.size(); i++) {
+            if (assign.get(i).equals(course)){
+                count++;
+            }
+        }
+        return count;
+    }
 
 
-    private static boolean removeDupes(Assignments assign) {
+
+    private static Set<Assignments> removeDupes(ArrayList<Assignments> assign) {
         boolean result = false;
         Set<Assignments> noDupes = new HashSet<>();
-        for (int i = 0; i <10 ; i++) {
-            noDupes.add(assign);
-            //result= assign.equals(i);
-           if (!( result)){
-               noDupes.remove(i);
-               result=assign.equals(i);
-           }
-          // result = noDupes.hashCode( );
+        for (int i = 0; i <assign.size() ; i++) {
+            noDupes.add(assign.get(i));
         }
-
-
-        return result;
+        return noDupes;
     }
 
     private static ArrayList<Assignments> list(Assignments assign) {
@@ -198,8 +210,9 @@ public class Main {
         return listNew;
     }
 
-    public static Assignments readAssignmentFromFile() {
+    public static ArrayList<Assignments> readAssignmentFromFile() {
         File readFile = new File("input.dat");
+        ArrayList<Assignments>newList = new ArrayList<>();
         Assignments assign5=null;
         try (Scanner sc = new Scanner(readFile)) {
             while (sc.hasNext()) {
@@ -229,6 +242,7 @@ public class Main {
 
 
                assign5= new Assignments(temp, courses, categorynew, priority1  );
+               newList.add(assign5);
                 System.out.print("\n\nKerionne: " +assign5);
             }
 
@@ -236,7 +250,7 @@ public class Main {
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
-        return assign5;
+        return newList;
     }
 
     public static ArrayList<Assignments> listOFAssignments(Assignments assign1, Assignments assign2, Assignments assign3) {
