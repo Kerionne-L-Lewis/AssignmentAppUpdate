@@ -135,7 +135,7 @@ public class Main {
         System.out.println("Assignment 3: " + assign3);
 
         boolean assign4 = assign1.equals(assign3);
-        System.out.println("(Override Assignment.equals) Are these the same assignments " + assign4);
+        System.out.println("\n(Override Assignment.equals) Are these the same assignments " + assign4);
 
         int num1 = assign1.compareTo(assign1);
         int num2 =assign1.compareTo(assign2);
@@ -143,7 +143,7 @@ public class Main {
         int num4=assign1.compareTo(assign3);
 
 
-        System.out.println("results " + num1 + " " + num2 + " " + num3+ " "+num4);
+      //  System.out.println("results " + num1 + " " + num2 + " " + num3+ " "+num4);
 
         int earilest = earliest(num1, num2, num3);
         System.out.println("The earliest assignment is " + earilest );
@@ -154,11 +154,11 @@ public class Main {
         ArrayList<Assignments> assign= readAssignmentFromFile();
 
 
-        System.out.println("\nKerionne:\n\t" + assign.get(0) + "\n\t" + assign.get(1));
+      /*  System.out.println("\nKerionne:\n\t" + assign.get(0) + "\n\t" + assign.get(1));
         boolean answer1 = assign.get( 0 ).equals( assign.get( 0 ));  // true
         boolean answer2 = assign.get( 0 ).equals( assign.get( 1 ));  // false
         boolean answer3 = assign.get( 1 ).equals( assign.get( 0 ));  // false
-        System.out.println(answer1 + " "+  answer2+" " + " " +answer3);
+        System.out.println(answer1 + " "+  answer2+" " + " " +answer3);*/
 
         assign.add(assign.get(0));
         assign.add(assign.get(1));
@@ -170,32 +170,50 @@ public class Main {
         System.out.println("\n# assignments = " + assign.size() + " # Set + 3 = "
                 + areThereDupes.size());
 
-        int counter =countingCourse(assign,AfricanAHist);
+        int counter =countingCourse(assign,RaceCulComm);
         System.out.println("How many assignments for course " + counter );
 
 
         Collections.sort(assign, Collections.reverseOrder());
         System.out.println("ReverseList " + assign);
 
-
+       assign.remove(3);
+       assign.add(3, NOPRIORITY);
+        System.out.println("original list " + assign);
+        prioritySort(assign);
+        System.out.println("did it sort by priority " + assign);
 
 
     }
+
+    public static void prioritySort(ArrayList<Assignments> list){
+        for (int i = 0; i <list.size() ; i++) {
+            for (int j = 0; j <list.size() ; j++) {
+                if (list.get(i).getLevels().equals(NOPRIORITY)) {
+                    Assignments temp = list.get(i);
+
+                    if (list.get(i).getLevels().equals(HIGH)) {
+                        Assignments temp1 = list.get(j);
+
+                        list.set(i, temp1);
+                        list.set(j,temp);
+                    }
+                }
+
+            }
+        }
+        }
+
 
     private static int countingCourse( ArrayList<Assignments> assign, EnumCourseDescript.Courses course ) {
         int count = 0;
-        System.out.println("\nassign.size() is " + assign.size());
-
         for (int i = 0; i < assign.size(); i++) {
-            System.out.println(i + "\tIs " + assign.get(i).getCourses()+ " equal to " + course + "?\t" + assign.get(i).equals(course));
             if (assign.get(i).getCourses().equals(course)) {
                 count++;
             }
-            System.out.println("Kerionne, the count at index " + i + " is " + count);
         }
         return count;
     }
-
 
     private static Set<Assignments> removeDupes(ArrayList<Assignments> assign) {
         boolean result = false;
@@ -204,14 +222,6 @@ public class Main {
             noDupes.add(assign.get(i));
         }
         return noDupes;
-    }
-
-    private static ArrayList<Assignments> list(Assignments assign) {
-        ArrayList<Assignments>listNew = new ArrayList<>();
-        for (int i = 0; i < 50; i++) {
-            listNew.add(assign);
-        }
-        return listNew;
     }
 
     public static ArrayList<Assignments> readAssignmentFromFile() {
@@ -247,7 +257,7 @@ public class Main {
 
                assign5= new Assignments(temp, courses, categorynew, priority1  );
                newList.add(assign5);
-                System.out.print("\n\nKerionne: " +assign5);
+               // System.out.print("\n\nKerionne: " +assign5);
             }
 
 
@@ -397,7 +407,7 @@ public class Main {
         return earlyDate;
     }
 
-    private static class Assignments   {
+    private static class Assignments implements Comparable<Assignments>   {
         private LocalDateTime time;
         private EnumCourseDescript.Courses courses;
         private Category subjects;
@@ -427,13 +437,13 @@ public class Main {
 
         public Priority getLevels() {
             if (levels.equals(NOPRIORITY))
-                System.out.println(0);
+                System.out.print(0);
             else if (levels.equals(LOW))
-                System.out.println(1);
+                System.out.print(1);
             else if (levels.equals(MEDIUM))
-                System.out.println(2);
-            else
-                System.out.println(3);
+                System.out.print(2);
+           //else
+              //  System.out.print(3);
 
             return levels;
         }
