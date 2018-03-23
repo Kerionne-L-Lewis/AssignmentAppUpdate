@@ -174,23 +174,27 @@ public class Main {
         System.out.println("How many assignments for course " + counter );
 
 
-
+        Collections.sort(assign, Collections.reverseOrder());
+        System.out.println("ReverseList " + assign);
 
 
 
 
     }
 
-    private static int countingCourse(ArrayList<Assignments> assign, EnumCourseDescript.Courses course) {
+    private static int countingCourse( ArrayList<Assignments> assign, EnumCourseDescript.Courses course ) {
         int count = 0;
-        for (int i = 0; i <assign.size(); i++) {
-            if (assign.get(i).equals(course)){
+        System.out.println("\nassign.size() is " + assign.size());
+
+        for (int i = 0; i < assign.size(); i++) {
+            System.out.println(i + "\tIs " + assign.get(i).getCourses()+ " equal to " + course + "?\t" + assign.get(i).equals(course));
+            if (assign.get(i).getCourses().equals(course)) {
                 count++;
             }
+            System.out.println("Kerionne, the count at index " + i + " is " + count);
         }
         return count;
     }
-
 
 
     private static Set<Assignments> removeDupes(ArrayList<Assignments> assign) {
@@ -434,7 +438,6 @@ public class Main {
             return levels;
         }
 
-
         @Override
         public String toString() {
             return
@@ -457,7 +460,6 @@ public class Main {
             Assignments that = (Assignments) o;
             return Objects.equals(time, that.time);
         }
-
         @Override
         public int hashCode() {
 
@@ -470,12 +472,7 @@ public class Main {
 
 
         }
-
-
     }
-
-
-
 
 enum Priority{
       NOPRIORITY, LOW , MEDIUM, HIGH
@@ -493,6 +490,19 @@ class EnumCourseDescript {
         this.courses = courses;
     }
 
+    @Override
+    public boolean equals(Object o) {
+       if (this == o) return true;
+        if (o == null|| getClass() != o.getClass()) return false;
+        EnumCourseDescript that = (EnumCourseDescript) o;
+        return courses == that.courses;
+     // return this.equals(courses);
+    }
+
+    @Override
+    public int hashCode() {
+        return 0;
+    }
 
     enum Courses {
         PersonalFinance, DataStructures, RaceCulComm, AfricanAHist, ResearchMethods;
