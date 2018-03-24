@@ -177,13 +177,49 @@ public class Main {
         Collections.sort(assign, Collections.reverseOrder());
         System.out.println("ReverseList " + assign);
 
-       assign.remove(3);
-       assign.add(3, NOPRIORITY);
-        System.out.println("original list " + assign);
+
         prioritySort(assign);
         System.out.println("did it sort by priority " + assign);
 
+        //Collections.sort( assign, (p,q) -> p.ordinal() - q.ordinal() );
 
+        ArrayList<Assignments>whichAssignmentsDue= findAssignmentDue(assign, LocalDateTime.of( 1959 ,
+                9,06,13, 25));
+        System.out.println("What Assignments are due today " + whichAssignmentsDue);
+
+
+        ArrayList<Assignments>whichAssignmentDueNextDays = dueNextDays(assign,today.plusDays(3));
+        System.out.println("What Assignments is due in 3 days " +whichAssignmentDueNextDays);
+
+        System.out.println("Which assignments are past due? ");
+
+        System.out.println("What is the next Assignment due for each course ");
+
+        System.out.println("What are the highest priority assignments that are still due?");
+
+
+
+
+    }
+
+    private static ArrayList<Assignments> dueNextDays(ArrayList<Assignments> assign, LocalDateTime time) {
+        ArrayList<Assignments>dueWithinNextDays = new ArrayList<>();
+        for (int i = 0; i <assign.size() ; i++) {
+            if (assign.get(i).equals(time)){
+                dueWithinNextDays.add(assign.get(i));
+            }
+        }
+        return dueWithinNextDays;
+    }
+
+    private static ArrayList<Assignments> findAssignmentDue(ArrayList<Assignments> assign, LocalDateTime today) {
+       ArrayList<Assignments>due= new ArrayList<>();
+        for (int i = 0; i <assign.size() ; i++) {
+            if (assign.get(i).equals(today)) {
+                due.add(assign.get(i));
+            }
+        }
+        return due;
     }
 
     public static void prioritySort(ArrayList<Assignments> list){
@@ -203,7 +239,6 @@ public class Main {
             }
         }
         }
-
 
     private static int countingCourse( ArrayList<Assignments> assign, EnumCourseDescript.Courses course ) {
         int count = 0;
