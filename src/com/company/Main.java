@@ -178,10 +178,19 @@ public class Main {
         System.out.println("ReverseList " + assign);
 
 
-        prioritySort(assign);
+       // prioritySort(assign);
+        Collections.sort(assign, (p,q) -> p.getLevels().ordinal()-q.getLevels().ordinal());
         System.out.println("did it sort by priority " + assign);
 
-        //Collections.sort( assign, (p,q) -> p.ordinal() - q.ordinal() );
+        Collections.sort(assign,(p,q)->p.getTime().compareTo(q.getTime()));
+        System.out.println("Sort by time " + assign);
+
+        Collections.sort( assign, (p,q) -> q.getTime().compareTo(p.getTime()));
+        System.out.println("Sort time in reverse" + assign);
+
+
+        Collections.sort( assign, (p,q) -> p.getCourses().ordinal() - q.getCourses().ordinal() );
+        System.out.println("Sort by courses " + assign);
 
         ArrayList<Assignments>whichAssignmentsDue= findAssignmentDue(assign, LocalDateTime.of( 1959 ,
                 9,06,13, 25));
@@ -517,6 +526,8 @@ public class Main {
 
 
         }
+
+
     }
 
 enum Priority{
