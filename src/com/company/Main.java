@@ -225,7 +225,7 @@ public class Main {
         for (Assignments courses:assign) {
            LocalDateTime dates= courses.getTime();
             if (dates.isAfter(today));
-            nextAssignment.add(dates);
+            nextAssignment.add(dates); //Add assignments with those dates, not just dates. For each may not work
         }
     }
 
