@@ -1,6 +1,8 @@
 package com.company;
 
 
+import com.sun.xml.internal.bind.v2.TODO;
+
 import java.io.*;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -165,13 +167,16 @@ public class Main {
         assign.add(assign.get(2));
 
      Set<Assignments> areThereDupes = removeDupes(assign);
-        System.out.println("\n\nAre the dupes removed ? "+ areThereDupes);
+        System.out.println("\nAre the dupes removed ? "+ areThereDupes);
 
         System.out.println("\n# assignments = " + assign.size() + " # Set + 3 = "
                 + areThereDupes.size());
 
         int counter =countingCourse(assign,RaceCulComm);
-        System.out.println("How many assignments for course " + counter );
+        System.out.println("How many assignments for course [x] " + counter );
+
+        ArrayList<Assignments>courseAssignments= whatAreCourseAssigns(assign, AfricanAHist);
+        System.out.println("What are the course [C] assignments? " + courseAssignments);
 
 
         Collections.sort(assign, Collections.reverseOrder());
@@ -192,37 +197,65 @@ public class Main {
         Collections.sort( assign, (p,q) -> p.getCourses().ordinal() - q.getCourses().ordinal() );
         System.out.println("Sort by courses " + assign);
 
-        ArrayList<Assignments>whichAssignmentsDue= findAssignmentDue(assign, LocalDateTime.of( 1959 ,
-                9,06,13, 25));
+
+        ArrayList<Assignments>whichAssignmentsDue= findAssignmentDue(assign);
         System.out.println("What Assignments are due today " + whichAssignmentsDue);
 
 
-        ArrayList<Assignments>whichAssignmentDueNextDays = dueNextDays(assign,today.plusDays(3));
-        System.out.println("What Assignments is due in 3 days " +whichAssignmentDueNextDays);
+        ArrayList<Assignments>whichAssignmentDueNextDays = dueNextDays(assign,15);
+        System.out.println("What Assignments is due in [x] days " +whichAssignmentDueNextDays);
 
-        System.out.println("Which assignments are past due? ");
+        ArrayList<Assignments>pastDue= whichArePastDue(assign);
+        System.out.println("The pastDue assignments are " + pastDue);
 
-        System.out.println("What is the next Assignment due for each course ");
+       //TODO System.out.println("What is the next Assignment due for each course ");
 
-        System.out.println("What are the highest priority assignments that are still due?");
+        ArrayList<Assignments>nextAssignDue= whatIsNextAssign(assign);
+
+       //TODO System.out.println("What are the highest priority assignments that are still due?");
 
 
 
 
     }
 
-    private static ArrayList<Assignments> dueNextDays(ArrayList<Assignments> assign, LocalDateTime time) {
+    private static ArrayList<Assignments> whatIsNextAssign(ArrayList<Assignments> assign) {
+        ArrayList<Assignments>nextAssignment= new ArrayList<>();
+        LocalDateTime today =LocalDateTime.of(2018,3,1,10,30);
+        for (Assignments courses:assign) {
+           LocalDateTime dates= courses.getTime();
+            if (dates.isAfter(today));
+            nextAssignment.add(dates);
+        }
+    }
+
+
+    public static ArrayList<Assignments>whichArePastDue(ArrayList<Assignments> assign){
+        ArrayList<Assignments> pastDueAssign = new ArrayList<>();
+        LocalDateTime today = LocalDateTime.now();
+        for (int i = 0; i <assign.size() ; i++) {
+            if (assign.get(i).getTime().isBefore(today)){
+                pastDueAssign.add(assign.get(i));
+            }
+        }
+        return pastDueAssign;
+    }
+
+    private static ArrayList<Assignments> dueNextDays(ArrayList<Assignments> assign, int days) {
+       LocalDateTime today = LocalDateTime.now();
+       LocalDateTime startTime = today.minusDays(days);
         ArrayList<Assignments>dueWithinNextDays = new ArrayList<>();
         for (int i = 0; i <assign.size() ; i++) {
-            if (assign.get(i).equals(time)){
+            if (assign.get(i).getTime().isAfter(startTime) && assign.get(i).getTime().isBefore(today)){
                 dueWithinNextDays.add(assign.get(i));
             }
         }
         return dueWithinNextDays;
     }
 
-    private static ArrayList<Assignments> findAssignmentDue(ArrayList<Assignments> assign, LocalDateTime today) {
+    private static ArrayList<Assignments> findAssignmentDue(ArrayList<Assignments> assign) {
        ArrayList<Assignments>due= new ArrayList<>();
+       LocalDateTime today = LocalDateTime.now();
         for (int i = 0; i <assign.size() ; i++) {
             if (assign.get(i).equals(today)) {
                 due.add(assign.get(i));
@@ -249,6 +282,16 @@ public class Main {
         }
         }
 
+    private static ArrayList<Assignments> whatAreCourseAssigns(ArrayList<Assignments> assign,
+                                                               EnumCourseDescript.Courses course) {
+        ArrayList<Assignments> courseAssignments = new ArrayList<>();
+        for (int i = 0; i < assign.size(); i++) {
+            if (assign.get(i).getCourses().equals(course)) {
+                courseAssignments.add(assign.get(i));
+            }
+        }
+        return courseAssignments;
+    }
     private static int countingCourse( ArrayList<Assignments> assign, EnumCourseDescript.Courses course ) {
         int count = 0;
         for (int i = 0; i < assign.size(); i++) {
@@ -325,8 +368,12 @@ public class Main {
                     for (int i = 0; i < num; i++) {
                         LocalDateTime randomDate= randomDateGenerator();
                          Category randEnums= Category.values()[new Random().nextInt(Category.values().length)];
-                        Assignments temp = new Assignments(randomDate, EnumCourseDescript.Courses.AfricanAHist,
-                                randEnums,HIGH);
+                        EnumCourseDescript.Courses randCourses = EnumCourseDescript.Courses.values()
+                                [new Random().nextInt(EnumCourseDescript.Courses.values().length)];
+                        Priority randPriority= Priority.values()[new Random().nextInt(Priority.values().length)];
+
+                        Assignments temp = new Assignments(randomDate, randCourses,
+                                randEnums,randPriority);
 
                         pw.println(temp);
                     }
@@ -437,7 +484,7 @@ public class Main {
     }
 
     private static LocalDateTime randomDateGenerator() {
-        long startOfTime = ChronoUnit.MINUTES.between(LocalDateTime.of(0, 1, 1, 0, 0)
+        long startOfTime = ChronoUnit.MINUTES.between(LocalDateTime.of(2000, 1, 1, 0, 0)
                 , LocalDateTime.now());
         long minutes = rand.nextInt((int) startOfTime);
         return LocalDateTime.now().minusMinutes(minutes);
@@ -480,14 +527,14 @@ public class Main {
         }
 
         public Priority getLevels() {
-            if (levels.equals(NOPRIORITY))
+           /* if (levels.equals(NOPRIORITY))
                 System.out.print(0);
             else if (levels.equals(LOW))
                 System.out.print(1);
             else if (levels.equals(MEDIUM))
                 System.out.print(2);
            //else
-              //  System.out.print(3);
+              //  System.out.print(3);*/
 
             return levels;
         }
