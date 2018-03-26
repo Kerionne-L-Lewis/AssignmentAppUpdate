@@ -210,16 +210,33 @@ public class Main {
 
        //TODO System.out.println("What is the next Assignment due for each course ");
 
-        ArrayList<Assignments>nextAssignDue= whatIsNextAssign(assign);
+     //   ArrayList<Assignments>nextAssignDue= whatIsNextAssign(assign);
 
-       //TODO System.out.println("What are the highest priority assignments that are still due?");
+
+        ArrayList<Assignments> highestPriorityStillDue =highPriority(assign);
+        Collections.sort(highestPriorityStillDue,(p,q)->p.getTime().compareTo(q.getTime()) );
+        System.out.println("Assignments with high priority thats still due " + highestPriorityStillDue);
 
 
 
 
     }
 
-    private static ArrayList<Assignments> whatIsNextAssign(ArrayList<Assignments> assign) {
+    private static ArrayList<Assignments> highPriority(ArrayList<Assignments> assign) {
+        LocalDateTime mardiGras = LocalDateTime.of(2018,2,13, 11,59);
+        LocalDateTime due = LocalDateTime.of(2018, 3, 31, 11, 59);
+        ArrayList<Assignments> highPriority = new ArrayList<>();
+        for (int i = 0; i < assign.size(); i++) {
+            if ((assign.get(i).getLevels()).equals(HIGH)) {
+                if (assign.get(i).getTime().isBefore(due) && assign.get(i).getTime().isAfter(mardiGras)) {
+                    highPriority.add(assign.get(i));
+                }
+            }
+        }
+            return highPriority;
+    }
+
+   /* private static ArrayList<Assignments> whatIsNextAssign(ArrayList<Assignments> assign) {
         ArrayList<Assignments>nextAssignment= new ArrayList<>();
         LocalDateTime today =LocalDateTime.of(2018,3,1,10,30);
         for (Assignments courses:assign) {
@@ -227,7 +244,7 @@ public class Main {
             if (dates.isAfter(today));
             nextAssignment.add(dates); //Add assignments with those dates, not just dates. For each may not work
         }
-    }
+    }*/
 
 
     public static ArrayList<Assignments>whichArePastDue(ArrayList<Assignments> assign){
@@ -484,7 +501,7 @@ public class Main {
     }
 
     private static LocalDateTime randomDateGenerator() {
-        long startOfTime = ChronoUnit.MINUTES.between(LocalDateTime.of(2000, 1, 1, 0, 0)
+        long startOfTime = ChronoUnit.MINUTES.between(LocalDateTime.of(2016, 1, 1, 0, 0)
                 , LocalDateTime.now());
         long minutes = rand.nextInt((int) startOfTime);
         return LocalDateTime.now().minusMinutes(minutes);
